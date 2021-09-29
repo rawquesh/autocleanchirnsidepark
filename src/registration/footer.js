@@ -1,4 +1,4 @@
-import { IconButton, Stack, Typography } from "@mui/material";
+import { Divider, IconButton, Stack, Typography } from "@mui/material";
 import Facebook from "@mui/icons-material/Facebook";
 import Instagram from "@mui/icons-material/Instagram";
 
@@ -11,6 +11,7 @@ function Footer() {
         backgroundColor: "#F4F4F4",
         margin: "30px 0 30px 0",
         padding: "10px 0 10px 0",
+        borderTop : "2px solid #CBCBCB"
       }}
     >
       <Stack direction="row" justifyContent="center">
