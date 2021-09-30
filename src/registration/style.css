@@ -38,7 +38,15 @@
   justify-content: center;
   align-items: center;
   margin: auto;
-  padding: 0 10% 0 10%;
+  padding: 3% 6% 3% 6%;
+  border: 2px solid transparent;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+  border-radius: 10px;
+
+}
+.card-p {
+  margin: 10px;
+  margin-bottom: 25px;
 }
 
 .card-field {
@@ -62,7 +70,7 @@
 
 .plan {
   height: 150px;
-  border: 2px solid transparent;
+  border: 3px solid transparent;
   box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
   margin: 5px;
   padding: 10px 15px 10px 15px;
@@ -72,11 +80,8 @@
   flex-direction: column;
   max-width: 200px;
 }
-.plan-s {
-  border: 2px solid #7ebc99;
-}
+
 .plan:hover {
-  border: 2px solid #a6e7c2;
+  border: 3px solid #a6e7c2;
   cursor: pointer;
-  
 }

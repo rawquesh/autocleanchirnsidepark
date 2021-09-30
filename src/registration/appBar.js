@@ -9,8 +9,7 @@ import { useHistory } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import { borderColor } from "@mui/system";
 
-export default function DenseAppBar() {
-  const history = useHistory();
+export default function DenseAppBar({click}) {
 
   function onClick() {
     // history.push("/admin");
@@ -18,28 +17,26 @@ export default function DenseAppBar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar elevation={0} color="transparent" position="relative">
-        <Toolbar variant="dense">
-          <Typography
-            variant="h6"
-            color="white"
-            style={{
-              fontSize: 20,
-              textTransform: "capitalize",
-              letterSpacing: "2px",
-              textDecoration: "underline",
-              textUnderlineOffset: "5px",
-            }}
-            component="div"
-          >
-            Auto clean
-          </Typography>
-          <Box sx={{ flexGrow: 1 }} />
-          <MyButton title="Join" onClick={onClick} />
-          <MyButton title="Contact Us" onClick={onClick} />
-          <MyButton title="Admin" onClick={onClick} />
-        </Toolbar>
-      </AppBar>
+      <Toolbar variant="dense">
+        <Typography
+          variant="h6"
+          color="white"
+          style={{
+            fontSize: 15,
+            textTransform: "capitalize",
+            letterSpacing: "2px",
+            textDecoration: "underline",
+            textUnderlineOffset: "5px",
+          }}
+          component="div"
+        >
+          Auto clean
+        </Typography>
+        <Box sx={{ flexGrow: 1 }} />
+        {/* <MyButton title="Join" onClick={onClick} /> */}
+        <MyButton title="Contact Us" onClick={click} />
+        <MyButton title="Admin" onClick={onClick} />
+      </Toolbar>
     </Box>
   );
 }
@@ -47,15 +44,20 @@ export default function DenseAppBar() {
 function MyButton({ title, onClick }) {
   return (
     <Button
-      variant="text"
+      variant="outlined"
       onClick={onClick}
       style={{
-        margin: "15px",
-        textTransform: "capitalize",
-        letterSpacing: "1px",
+        margin: "5px 5px 0",
       }}
     >
-      <Typography variant="p" color="white">
+      <Typography
+        style={{
+          fontSize: 13,
+          textTransform: "capitalize",
+          letterSpacing: "2px",
+        }}
+        color="white"
+      >
         {title}
       </Typography>
     </Button>

@@ -9,15 +9,11 @@ export default function MyPlan({ title, desc, selected, onClick }) {
     <Grid item sm={4} md={3}>
       <div
         onClick={onClick}
-        className={"plan " + (selected && "plan-s")} 
-      
+        style={{
+          border: selected && "3px solid #7ebc99",
+        }}
+        className={"plan " + (selected && "plan-s")}
       >
-        {/* <Radio
-          style={{ position: "absolute", top: "20px",color:"green"}}
-          disableRipple
-          checked={selected}
-        /> */}
-
         <Typography
           style={{
             textTransform: "uppercase",

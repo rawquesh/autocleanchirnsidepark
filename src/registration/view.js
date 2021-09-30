@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import DenseAppBar from "./appBar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
@@ -29,7 +29,16 @@ function Registration() {
   const [year, setYear] = React.useState("");
   const [cvv, setCvv] = React.useState("");
 
-  var valid = require("card-validator");
+  const contactRef = useRef();
+  const joinRef = useRef();
+  const cardRef = useRef();
+
+  function scrollToJoin() {
+    joinRef.current.scrollIntoView({ behavior: "smooth" });
+  }
+  function scrollToContact() {
+    contactRef.current.scrollIntoView({ behavior: "smooth" });
+  }
 
   function PayButton() {
     console.log(
@@ -55,162 +64,172 @@ function Registration() {
   return (
     <>
       <div className=" big-image">
-        <DenseAppBar />
-        <MainLabel />
+        <DenseAppBar click={scrollToContact} />
+        <MainLabel click={scrollToJoin} />
       </div>
       <div className="main-style">
         <ServicesCard />
-        <Typography className="text-style">Choose your plan.</Typography>
-        <div style={{ maxWidth: "57em", margin: "auto" }}>
-          <Grid container className="plan-style">
-            {planData.map((data, index) => (
-              <MyPlan
-                title={data.title}
-                key={index}
-                desc={data.desc}
-                selected={planSelected === index}
-                onClick={() => {
-                  setPlanSelected(index);
-                }}
-              />
-            ))}
-          </Grid>
-        </div>
-        <Typography className="text-style">Credit Card</Typography>
-
-        <br />
-        <div className="card">
-          <div className="card-field">
-            <TextField
-              label="Name"
-              variant="outlined"
-              autoComplete="name"
-              value={name}
-              onChange={(event) => {
-                setName(event.target.value);
-              }}
-              fullWidth
-            />
-          </div>
-          <div className="card2">
-            <div className="card-field2" style={{ marginRight: "5px" }}>
-              <TextField
-                label="Rego"
-                variant="outlined"
-                value={rego}
-                onChange={(event) => {
-                  setRego(event.target.value);
-                }}
-                fullWidth
-              />
-            </div>
-            <div className="card-field2">
-              <TextField
-                label="Phone Number"
-                inputMode="tel"
-                autoComplete="tel"
-                variant="outlined"
-                value={phone}
-                onChange={(event) => {
-                  setPhone(event.target.value.replace(/\D/, ""));
-                }}
-                fullWidth
-              />
-            </div>
-          </div>
-          <div className="card-field">
-            <TextField
-              label="Card Number"
-              variant="outlined"
-              autoComplete="cc-number"
-              error={!cardValid}
-              value={cardNumber}
-              helperText={cardValid ? "" : "Enter valid card number."}
-              onChange={(event) => {
-                var numberValidation = valid.number(
-                  event.target.value.toString()
-                );
-                if (!numberValidation.isValid) {
-                  setCardValid(false);
-                } else {
-                  setCardValid(true);
-                }
-                setCardNumber(event.target.value);
-              }}
-              fullWidth
-            />
-          </div>
-
-          <div className="card2">
-            <div className="card-field2" style={{ marginRight: "5px" }}>
-              <FormControl fullWidth>
-                <InputLabel id="month">Month</InputLabel>
-                <Select
-                  value={month}
-                  label="month"
-                  autoComplete="cc-exp-month"
-                  onChange={(event) => {
-                    setMonth(event.target.value);
+        <div ref={joinRef}>
+          <Typography className="text-style">Choose your plan.</Typography>
+          <div style={{ maxWidth: "57em", margin: "auto" }}>
+            <Grid container className="plan-style">
+              {planData.map((data, index) => (
+                <MyPlan
+                  title={data.title}
+                  key={index}
+                  desc={data.desc}
+                  selected={planSelected === index}
+                  onClick={() => {
+                    setPlanSelected(index);
+                    setTimeout(function () {
+                      cardRef.current.scrollIntoView({ behavior: "smooth" });
+                    }, 100);
                   }}
-                >
-                  {genArrayOfMonths().map((e) => (
-                    <MenuItem key={e} value={e}>
-                      {e.toString().length === 1
-                        ? "0" + e.toString()
-                        : e.toString()}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </div>
-            <div className="card-field2" style={{ marginRight: "5px" }}>
-              <FormControl fullWidth>
-                <InputLabel id="year">Year</InputLabel>
-                <Select
-                  value={year}
-                  label="year"
-                  autoComplete="cc-exp-year"
-                  onChange={(event) => {
-                    setYear(event.target.value);
-                  }}
-                >
-                  {genArrayOfYears(15).map((e) => (
-                    <MenuItem key={e} value={e}>
-                      {e}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </div>
-            <div className="card-field2">
+                />
+              ))}
+            </Grid>
+          </div>
+        </div>
+        <div
+          ref={cardRef}
+          hidden={planSelected === undefined}
+          className="card-p"
+        >
+          <div className="card" elevation={4}>
+            <Typography className="text-style">Credit Card</Typography>
+            <br />
+            <div className="card-field">
               <TextField
-                label="cvv"
+                label="Name"
                 variant="outlined"
-                autoComplete="cc-csc"
-                value={cvv}
+                autoComplete="name"
+                value={name}
                 onChange={(event) => {
-                  if (event.target.value.length > 4) return;
-                  setCvv(event.target.value.replace(/\D/, ""));
+                  setName(event.target.value);
                 }}
                 fullWidth
               />
             </div>
+            <div className="card2">
+              <div className="card-field2" style={{ marginRight: "5px" }}>
+                <TextField
+                  label="Rego"
+                  variant="outlined"
+                  value={rego}
+                  onChange={(event) => {
+                    setRego(event.target.value);
+                  }}
+                  fullWidth
+                />
+              </div>
+              <div className="card-field2">
+                <TextField
+                  label="Phone Number"
+                  inputMode="tel"
+                  autoComplete="tel"
+                  variant="outlined"
+                  value={phone}
+                  onChange={(event) => {
+                    setPhone(event.target.value.replace(/\D/, ""));
+                  }}
+                  fullWidth
+                />
+              </div>
+            </div>
+            <div className="card-field">
+              <TextField
+                label="Card Number"
+                variant="outlined"
+                autoComplete="cc-number"
+                error={!cardValid}
+                value={cardNumber}
+                helperText={cardValid ? "" : "Enter valid card number."}
+                onChange={(event) => {
+                  const valid = require("card-validator");
+                  let numberValidation = valid.number(
+                    event.target.value.toString()
+                  );
+                  if (!numberValidation.isValid) {
+                    setCardValid(false);
+                  } else {
+                    setCardValid(true);
+                  }
+                  setCardNumber(event.target.value);
+                }}
+                fullWidth
+              />
+            </div>
+            <div className="card2">
+              <div className="card-field2" style={{ marginRight: "5px" }}>
+                <FormControl fullWidth>
+                  <InputLabel id="month">Month</InputLabel>
+                  <Select
+                    value={month}
+                    label="month"
+                    autoComplete="cc-exp-month"
+                    onChange={(event) => {
+                      setMonth(event.target.value);
+                    }}
+                  >
+                    {genArrayOfMonths().map((e) => (
+                      <MenuItem key={e} value={e}>
+                        {e.toString().length === 1
+                          ? "0" + e.toString()
+                          : e.toString()}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
+              <div className="card-field2" style={{ marginRight: "5px" }}>
+                <FormControl fullWidth>
+                  <InputLabel id="year">Year</InputLabel>
+                  <Select
+                    value={year}
+                    label="year"
+                    autoComplete="cc-exp-year"
+                    onChange={(event) => {
+                      setYear(event.target.value);
+                    }}
+                  >
+                    {genArrayOfYears(15).map((e) => (
+                      <MenuItem key={e} value={e}>
+                        {e}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
+              <div className="card-field2">
+                <TextField
+                  label="cvv"
+                  variant="outlined"
+                  autoComplete="cc-csc"
+                  value={cvv}
+                  onChange={(event) => {
+                    if (event.target.value.length > 4) return;
+                    setCvv(event.target.value.replace(/\D/, ""));
+                  }}
+                  fullWidth
+                />
+              </div>
+            </div>
+            <br />
+            <Button
+              style={{ height: "50px", marginBottom: "7px" }}
+              variant="contained"
+              fullWidth
+              onClick={PayButton}
+            >
+              {planSelected !== undefined
+                ? "Pay $" + planData[planSelected].ammout.toString()
+                : "Select a plan"}
+            </Button>
           </div>
-          <br />
-          <Button
-            style={{ height: "50px" }}
-            variant="contained"
-            fullWidth
-            onClick={PayButton}
-          >
-            {planSelected !== undefined
-              ? "Pay $" + planData[planSelected].ammout.toString()
-              : "Select a plan"}
-          </Button>
         </div>
-        <br  />
-        <br  />
-        <ContactUs />
+        <div ref={contactRef}>
+          <ContactUs />
+        </div>
         <Footer />
       </div>
     </>
@@ -260,7 +279,7 @@ function ServicesCard() {
   );
 }
 
-function MainLabel() {
+function MainLabel({ click }) {
   return (
     <div
       style={{
@@ -281,7 +300,7 @@ function MainLabel() {
       >
         Join over monthly plans at best prices.
       </Typography>
-      <Button variant="outlined" style={{ color: "white" }}>
+      <Button variant="outlined" color="info" onClick={click}>
         Join Now
       </Button>
     </div>
