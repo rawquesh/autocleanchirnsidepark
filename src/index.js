@@ -7,7 +7,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 
 function App() {
   return (
-    <Router>
+    <Router basename="/autocleanchirnsidepark" >
       <Route exact path="/" component={Registration} />
       <Route exact path="/admin" component={AdminView} />
     </Router>
