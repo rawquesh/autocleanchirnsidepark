@@ -2,6 +2,7 @@ import React from "react";
 
 import {
   Button,
+  CircularProgress,
   FormControl,
   InputLabel,
   MenuItem,
@@ -10,6 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import { planData } from "../view/data";
+import { MyAlert } from "../../components/alerts";
 
 export default function PaymentPage({ selectedPlan }) {
   const [cardNumber, setCardNumber] = React.useState("");
@@ -21,17 +23,43 @@ export default function PaymentPage({ selectedPlan }) {
   const [year, setYear] = React.useState("");
   const [cvv, setCvv] = React.useState("");
 
+  const [loading, setLoading] = React.useState(false);
+  const [alert, setAlert] = React.useState();
+
   function PayButton() {
-    console.log({
-      "card number ": cardNumber,
-      "card valid ": cardValid,
-      "name ": name,
-      "rego ": rego,
-      "phone ": phone,
-      "month ": month,
-      "year ": year,
-      "cvv ": cvv,
-    });
+    if (cardNumber === "" || !cardValid) {
+      setAlert({ type: "error", message: "Credit card number is invalid." });
+    } else if (name === "") {
+      setAlert({ type: "error", message: "Enter a name." });
+    } else if (rego === "") {
+      setAlert({ type: "error", message: "Enter a rego numebr." });
+    } else if (phone === "") {
+      setAlert({ type: "error", message: "Enter a phone number." });
+    } else if (month === "") {
+      setAlert({ type: "error", message: "Select card's expiry month." });
+    } else if (year === "") {
+      setAlert({ type: "error", message: "Select card's expiry year." });
+    } else if (cvv === "") {
+      setAlert({ type: "error", message: "Enter card's cvv number." });
+    } else {
+      setAlert({ type: "info", message: "Prosseccing the payemnt..." });
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+        setAlert({ type: "success", message: "Payment successful." });
+        reset();
+      }, 3000);
+    }
+  }
+
+  function reset() {
+    setCardNumber("");
+    setName("");
+    setPhone("");
+    setMonth("");
+    setRego("");
+    setYear("");
+    setCvv("");
   }
 
   return (
@@ -57,7 +85,7 @@ export default function PaymentPage({ selectedPlan }) {
             variant="outlined"
             value={rego}
             onChange={(event) => {
-              setRego(event.target.value);
+              setRego(event.target.value.toUpperCase());
             }}
             fullWidth
           />
@@ -157,12 +185,23 @@ export default function PaymentPage({ selectedPlan }) {
         style={{ height: "50px", marginBottom: "7px" }}
         variant="contained"
         fullWidth
+        disabled={loading}
         onClick={PayButton}
       >
-        {selectedPlan !== undefined
-          ? "Pay $" + planData[selectedPlan].ammout.toString()
-          : "Select a plan"}
+        {loading ? (
+          <CircularProgress size={25} />
+        ) : (
+          <div>
+            {selectedPlan !== undefined
+              ? "Pay $" + planData[selectedPlan].ammout.toString()
+              : "Select a plan"}
+          </div>
+        )}
       </Button>
+      <br />
+      {alert !== undefined && (
+        <MyAlert type={alert.type} message={alert.message} />
+      )}
     </div>
   );
 }

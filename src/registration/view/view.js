@@ -35,20 +35,16 @@ function Registration() {
         <Header click={scrollToContact} labelClick={scrollToJoin} />
       </div>
       <div className="main-style">
-        
-        <ServicesCard /> 
+        <ServicesCard />
         <div ref={joinRef}>
-          <MyPlans
-            onClick={onPlanClick}
-            selectedPlan={selectedPlan}
-          />
+          <MyPlans onClick={onPlanClick} selectedPlan={selectedPlan} />
         </div>
         <div
           ref={cardRef}
           hidden={selectedPlan === undefined}
           className="card-p"
         >
-          <PaymentPage selectedPlan={selectedPlan}  />
+          <PaymentPage selectedPlan={selectedPlan} />
         </div>
         <div ref={contactRef}>
           <ContactUs />
@@ -60,5 +56,3 @@ function Registration() {
 }
 
 export default Registration;
-
-

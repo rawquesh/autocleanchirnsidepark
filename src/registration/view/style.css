@@ -33,7 +33,7 @@
 .card {
   display: flex;
   flex-direction: column;
-  max-width: 35em;
+  max-width: 42em;
   position: relative;
   justify-content: center;
   align-items: center;
@@ -56,11 +56,20 @@
 
 .card2 {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   width: 100%;
   /* margin-bottom: 10px; */
 
   /* margin: auto; */
+}
+
+@media only screen and (max-width : 600px) {
+  .card2{
+  flex-direction: column;
+
+  }
+
+  
 }
 
 .card-field2 {
