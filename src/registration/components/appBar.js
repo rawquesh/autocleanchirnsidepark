@@ -5,9 +5,14 @@ import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
 
 import Typography from "@mui/material/Typography";
+import { useHistory } from "react-router";
 
 export default function DenseAppBar({ click, labelClick }) {
-  function onClick() {}
+  const history = useHistory();
+  
+  function onClick() {
+    history.push("/login");
+  }
 
   return (
     <>
