@@ -56,14 +56,17 @@
 
 .card2 {
   display: flex;
+  flex-direction: column;
   width: 100%;
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
 
   /* margin: auto; */
 }
 
 .card-field2 {
   width: 100%;
+  margin-bottom: 10px;
+
   /* max-width: 13em; */
   /* margin-right: 5px; */
 }
@@ -78,7 +81,7 @@
   justify-content: center;
   display: flex;
   flex-direction: column;
-  max-width: 200px;
+  max-width: 400px;
 }
 
 .plan:hover {

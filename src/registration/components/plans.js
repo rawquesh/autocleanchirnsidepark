@@ -1,12 +1,34 @@
 import * as React from "react";
-// import Card from "@mui/material/Card";
 import { Grid, Typography } from "@mui/material";
-// import { margin, maxWidth } from "@mui/system";
-import "./style.css";
+import "./../view/style.css";
+import { planData } from "../view/data";
 
-export default function MyPlan({ title, desc, selected, onClick }) {
+export default function MyPlans({ selectedPlan, onClick }) {
   return (
-    <Grid item sm={4} md={3}>
+    <div >
+      <Typography className="text-style">Choose your plan.</Typography>
+      <div style={{ maxWidth: "45em", margin: "auto"}}>
+        <Grid container className="plan-style">
+          {planData.map((data, index) => (
+            <MyPlan
+              title={data.title}
+              key={index}
+              desc={data.desc}
+              selected={selectedPlan === index}
+              onClick={() => {
+                onClick(index);
+              }}
+            />
+          ))}
+        </Grid>
+      </div>
+    </div>
+  );
+}
+
+function MyPlan({ title, desc, selected, onClick }) {
+  return (
+    <Grid item sm={6} md={4}>
       <div
         onClick={onClick}
         style={{

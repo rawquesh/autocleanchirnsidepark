@@ -1,5 +1,5 @@
 import { Button, TextField, Typography } from "@mui/material";
-import "./style.css";
+import "./../view/style.css";
 
 import React from "react";
 import { Email, LocationOn, Phone, Timer } from "@mui/icons-material";
