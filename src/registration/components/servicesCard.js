@@ -32,7 +32,6 @@ export default function ServicesCard() {
   return (
     <Grid item sm={6} md={4}>
       <Card variant="outlined" style={{ margin: "20px " }}>
-        <CardActionArea>
           <CardMedia component="img" height="170" image={image} alt={title} />
           <CardContent>
             <Typography
@@ -48,7 +47,6 @@ export default function ServicesCard() {
               {title}
             </Typography>
           </CardContent>
-        </CardActionArea>
       </Card>
     </Grid>
   );

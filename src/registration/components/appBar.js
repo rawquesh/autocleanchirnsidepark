@@ -11,7 +11,7 @@ export default function DenseAppBar({ click, labelClick }) {
   const history = useHistory();
   
   function onClick() {
-    history.push("/admin");
+    history.push("/dashboard");
   }
 
   return (
@@ -33,9 +33,8 @@ export default function DenseAppBar({ click, labelClick }) {
             Auto clean
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
-          {/* <MyButton title="Join" onClick={onClick} /> */}
-          <MyButton title="Contact Us" onClick={click} />
-          <MyButton title="Admin" onClick={onClick} />
+          {/* <MyButton title="Contact Us" onClick={click} /> */}
+          <MyButton title="Dashboard" onClick={onClick} />
         </Toolbar>
       </Box>
       <MainLabel click={labelClick} />
@@ -64,7 +63,7 @@ function MainLabel({ click }) {
       >
         Join over monthly plans at best prices.
       </Typography>
-      <Button variant="outlined" color="info" onClick={click}>
+      <Button variant="outlined"  onClick={click}>
         Join Now
       </Button>
     </div>
