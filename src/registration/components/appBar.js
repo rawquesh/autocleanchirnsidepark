@@ -11,7 +11,7 @@ export default function DenseAppBar({ click, labelClick }) {
   const history = useHistory();
   
   function onClick() {
-    history.push("/login");
+    history.push("/admin");
   }
 
   return (
