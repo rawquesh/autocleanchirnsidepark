@@ -26,7 +26,21 @@ function AdminHome() {
 
   const drawer = (
     <div style={{ backgroundColor: "#233044", height: "100%", color: "white" }}>
-      <Toolbar >  Car Wash </Toolbar>
+      <Toolbar>
+        <img src="images/logo.svg" />
+        <Typography
+          style={{
+            marginLeft: "10px",
+            fontSize: "0.9rem",
+            fontWeight: 500,
+            textTransform: "uppercase",
+            letterSpacing: "1px",
+          }}
+          component="div"
+        >
+          Auto Clean
+        </Typography>
+      </Toolbar>
       <Divider />
       <List>
         {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
@@ -65,10 +79,9 @@ function AdminHome() {
             <MenuIcon />
           </IconButton>
           <Typography color="primary" variant="h6" noWrap component="div">
-            Hi there,
+            Hi, Welcome back
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
-
         </Toolbar>
       </AppBar>
       <Box
