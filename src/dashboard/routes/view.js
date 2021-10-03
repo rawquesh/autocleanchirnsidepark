@@ -1,5 +1,4 @@
 import * as React from "react";
-import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -8,7 +7,6 @@ import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -16,23 +14,54 @@ import {
   Analytics,
   Home,
   PeopleAlt,
+  ShoppingBag,
   Sms,
 } from "@mui/icons-material";
 import { Avatar, ListItemButton } from "@mui/material";
+import {
+  BrowserRouter,
+  Link,
+  Route,
+  Switch,
+  useHistory,
+} from "react-router-dom";
+import HomePage from "../Pages/home/view";
+import BookingsPage from "../Pages/bookings/view";
+import MembersPage from "../Pages/members/view";
+import MarketingPage from "../Pages/marketing/view";
+import StatisticPage from "../Pages/statistic/view";
 
 const drawerWidth = 240;
 
-function Dashboard() {
+function Dashboard(props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const [selectedIndex, setSelectedIndex] = React.useState(getIndex());
 
   const handleListItemClick = (_, index) => {
     setSelectedIndex(index);
+    setMobileOpen(false);
   };
+
+  const history = useHistory();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+
+  function getIndex() {
+    const path = props.location.pathname.split("/").slice(-1)[0];
+    if (path !== "") {
+      const i = navData.findIndex((e) => e.path === path);
+      if (i === -1) {
+        history.push("/");
+        return 0;
+      } else {
+        return i;
+      }
+    } else {
+      return 0;
+    }
+  }
 
   const drawer = (
     <div style={{ backgroundColor: "#233044", height: "100%", color: "white" }}>
@@ -55,16 +84,24 @@ function Dashboard() {
       <List>
         {navData.map((data, i) => (
           <ListItemButton
-            selected={selectedIndex == i}
+            selected={selectedIndex === i}
             onClick={(event) => handleListItemClick(event, i)}
             key={data.title}
+            component={Link}
+            to={"/" + data.path}
           >
             <ListItemIcon>
               {<data.icon style={{ fontSize: "25px" }} color="action" />}
             </ListItemIcon>
-            <Typography letterSpacing="1px" fontSize="15px" color="white" variant="p"  component="div">
-            {data.title}
-          </Typography>
+            <Typography
+              letterSpacing="1px"
+              fontSize="15px"
+              color="white"
+              variant="p"
+              component="div"
+            >
+              {data.title}
+            </Typography>
           </ListItemButton>
         ))}
       </List>
@@ -107,54 +144,60 @@ function Dashboard() {
           </IconButton>
         </Toolbar>
       </AppBar>
-      <Box
-        component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-        aria-label="mailbox folders"
-      >
-        <Drawer
-          variant="temporary"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true,
-          }}
-          sx={{
-            display: { xs: "block", sm: "none" },
-            "& .MuiDrawer-paper": {
-              boxSizing: "border-box",
-              width: drawerWidth,
-            },
-          }}
+      <BrowserRouter basename="/dashboard">
+        <Box
+          component="nav"
+          sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+          aria-label="mailbox folders"
         >
-          {drawer}
-        </Drawer>
-        <Drawer
-          variant="permanent"
-          sx={{
-            display: { xs: "none", sm: "block" },
-            "& .MuiDrawer-paper": {
-              boxSizing: "border-box",
-              width: drawerWidth,
-            },
-          }}
-          open
-        >
-          {drawer}
-        </Drawer>
-      </Box>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}></Box>
+          <Drawer
+            variant="temporary"
+            open={mobileOpen}
+            onClose={handleDrawerToggle}
+            ModalProps={{
+              keepMounted: true,
+            }}
+            sx={{
+              display: { xs: "block", sm: "none" },
+              "& .MuiDrawer-paper": {
+                boxSizing: "border-box",
+                width: drawerWidth,
+              },
+            }}
+          >
+            {drawer}
+          </Drawer>
+          <Drawer
+            variant="permanent"
+            sx={{
+              display: { xs: "none", sm: "block" },
+              "& .MuiDrawer-paper": {
+                boxSizing: "border-box",
+                width: drawerWidth,
+              },
+            }}
+            open
+          >
+            {drawer}
+          </Drawer>
+        </Box>
+        <Box component="main">
+          <Toolbar />
+          <Switch>
+            {navData.map((item) => (
+              <Route
+                exact
+                path={"/" + item.path}
+                render={() => <item.page />}
+              />
+            ))}
+            {/* <Redirect to="/" /> */}
+          </Switch>
+        </Box>
+      </BrowserRouter>
     </Box>
   );
 }
-
-Dashboard.propTypes = {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
-  window: PropTypes.func,
-};
 
 export default Dashboard;
 
@@ -162,21 +205,31 @@ const navData = [
   {
     icon: Home,
     title: "Home",
-    path: "/home",
+    path: "",
+    page: HomePage,
+  },
+  {
+    icon: ShoppingBag,
+    title: "Bookings",
+    path: "bookings",
+    page: BookingsPage,
   },
   {
     icon: PeopleAlt,
     title: "Members",
-    path: "/members",
+    path: "members",
+    page: MembersPage,
   },
   {
     icon: Sms,
     title: "Marketing",
-    path: "/marketing",
+    path: "marketing",
+    page: MarketingPage,
   },
   {
     icon: Analytics,
     title: "Statistic",
-    path: "/statistic",
+    path: "statistic",
+    page: StatisticPage,
   },
 ];
