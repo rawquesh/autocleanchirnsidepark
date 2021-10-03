@@ -7,18 +7,28 @@ import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
+import {
+  Analytics,
+  Home,
+  PeopleAlt,
+  Sms,
+} from "@mui/icons-material";
+import { Avatar, ListItemButton } from "@mui/material";
 
 const drawerWidth = 240;
 
-function AdminHome() {
+function Dashboard() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [selectedIndex, setSelectedIndex] = React.useState(1);
+
+  const handleListItemClick = (_, index) => {
+    setSelectedIndex(index);
+  };
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -43,13 +53,19 @@ function AdminHome() {
       </Toolbar>
       <Divider />
       <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem button key={text}>
+        {navData.map((data, i) => (
+          <ListItemButton
+            selected={selectedIndex == i}
+            onClick={(event) => handleListItemClick(event, i)}
+            key={data.title}
+          >
             <ListItemIcon>
-              <MailIcon color="action" />
+              {<data.icon style={{ fontSize: "25px" }} color="action" />}
             </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
+            <Typography letterSpacing="1px" fontSize="15px" color="white" variant="p"  component="div">
+            {data.title}
+          </Typography>
+          </ListItemButton>
         ))}
       </List>
     </div>
@@ -82,6 +98,13 @@ function AdminHome() {
             Hi, Welcome back
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
+          <IconButton>
+            <Avatar
+              sx={{ width: 27, height: 27 }}
+              alt="Account"
+              src="/images/avatar.jpg"
+            />
+          </IconButton>
         </Toolbar>
       </AppBar>
       <Box
@@ -125,7 +148,7 @@ function AdminHome() {
   );
 }
 
-AdminHome.propTypes = {
+Dashboard.propTypes = {
   /**
    * Injected by the documentation to work in an iframe.
    * You won't need it on your project.
@@ -133,4 +156,27 @@ AdminHome.propTypes = {
   window: PropTypes.func,
 };
 
-export default AdminHome;
+export default Dashboard;
+
+const navData = [
+  {
+    icon: Home,
+    title: "Home",
+    path: "/home",
+  },
+  {
+    icon: PeopleAlt,
+    title: "Members",
+    path: "/members",
+  },
+  {
+    icon: Sms,
+    title: "Marketing",
+    path: "/marketing",
+  },
+  {
+    icon: Analytics,
+    title: "Statistic",
+    path: "/statistic",
+  },
+];
