@@ -10,6 +10,8 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
+import { Helmet } from "react-helmet";
+
 import {
   Analytics,
   Home,
@@ -18,13 +20,7 @@ import {
   Sms,
 } from "@mui/icons-material";
 import { Avatar, ListItemButton } from "@mui/material";
-import {
-  BrowserRouter,
-  Link,
-  Route,
-  Switch,
-  useHistory,
-} from "react-router-dom";
+import { BrowserRouter, Link, Route, Switch, Redirect } from "react-router-dom";
 import HomePage from "../Pages/home/view";
 import BookingsPage from "../Pages/bookings/view";
 import MembersPage from "../Pages/members/view";
@@ -42,8 +38,6 @@ function Dashboard(props) {
     setMobileOpen(false);
   };
 
-  const history = useHistory();
-
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -53,7 +47,6 @@ function Dashboard(props) {
     if (path !== "") {
       const i = navData.findIndex((e) => e.path === path);
       if (i === -1) {
-        history.push("/");
         return 0;
       } else {
         return i;
@@ -186,12 +179,22 @@ function Dashboard(props) {
           <Switch>
             {navData.map((item) => (
               <Route
+                key={item}
                 exact
                 path={"/" + item.path}
-                render={() => <item.page />}
+                render={() => {
+                  return (
+                    <>
+                      <Helmet>
+                        <title>{item.title + " | Dashboard"}</title>
+                      </Helmet>
+                      <item.page />
+                    </>
+                  );
+                }}
               />
             ))}
-            {/* <Redirect to="/" /> */}
+            <Redirect to="/" />
           </Switch>
         </Box>
       </BrowserRouter>
