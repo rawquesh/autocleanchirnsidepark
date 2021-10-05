@@ -15,6 +15,7 @@ import { Helmet } from "react-helmet";
 import {
   Analytics,
   Home,
+  Notifications,
   PeopleAlt,
   ShoppingBag,
   Sms,
@@ -26,6 +27,8 @@ import BookingsPage from "../Pages/bookings/view";
 import MembersPage from "../Pages/members/view";
 import MarketingPage from "../Pages/marketing/view";
 import StatisticPage from "../Pages/statistic/view";
+import AccountPopover from "./AccountPopup";
+import NotificationsPage from "../Pages/notifications/view";
 
 const drawerWidth = 240;
 
@@ -59,7 +62,7 @@ function Dashboard(props) {
   const drawer = (
     <div style={{ backgroundColor: "#233044", height: "100%", color: "white" }}>
       <Toolbar>
-        <img src="images/logo.svg" />
+        <img src="/images/logo.svg" />
         <Typography
           style={{
             marginLeft: "10px",
@@ -84,7 +87,12 @@ function Dashboard(props) {
             to={"/" + data.path}
           >
             <ListItemIcon>
-              {<data.icon style={{ fontSize: "25px" }} color="action" />}
+              {
+                <data.icon
+                  style={{ fontSize: "25px", marginLeft: "10px" }}
+                  color="action"
+                />
+              }
             </ListItemIcon>
             <Typography
               letterSpacing="1px"
@@ -128,13 +136,14 @@ function Dashboard(props) {
             Hi, Welcome back
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
-          <IconButton>
+          <AccountPopover />
+          {/* <IconButton>
             <Avatar
               sx={{ width: 27, height: 27 }}
               alt="Account"
               src="/images/avatar.jpg"
             />
-          </IconButton>
+          </IconButton> */}
         </Toolbar>
       </AppBar>
       <BrowserRouter basename="/dashboard">
@@ -174,7 +183,7 @@ function Dashboard(props) {
             {drawer}
           </Drawer>
         </Box>
-        <Box component="main">
+        <Box width="100%" component="main">
           <Toolbar />
           <Switch>
             {navData.map((item) => (
@@ -234,5 +243,11 @@ const navData = [
     title: "Statistic",
     path: "statistic",
     page: StatisticPage,
+  },
+  {
+    icon: Notifications,
+    title: "Notifications",
+    path: "notifications",
+    page: NotificationsPage,
   },
 ];
