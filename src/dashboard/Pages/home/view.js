@@ -31,13 +31,13 @@ function HomePage() {
         <TitleBar title="Bookings" />
         <Grid container marginTop={"0px"} spacing={2}>
           <Grid item xs={6} sm={6} md={3}>
-            <MyInfoCard title="15" subTitle="Today " />
+            <MyInfoCard title="15" subTitle="Today" />
           </Grid>
           <Grid item xs={6} sm={6} md={3}>
-            <MyInfoCard title="26" subTitle="Yesterday " />
+            <MyInfoCard title="26" subTitle="Yesterday" />
           </Grid>
           <Grid item xs={6} sm={6} md={3}>
-            <MyInfoCard title="103" subTitle="Last 7 days " />
+            <MyInfoCard title="103" subTitle="Last 7 days" />
           </Grid>
           <Grid item xs={6} sm={6} md={3}>
             <MyInfoCard title="241" subTitle="This month" />
